@@ -13,7 +13,7 @@ const Hero = () => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [recentSearches, SetRecentSearches] = useState([]);
 
-    const apiKey = "7cd1dc8955b805a6aa401d56338eb53c";
+    const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
 
     const searchWeather = () => {
         let url = "";
