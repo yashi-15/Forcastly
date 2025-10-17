@@ -1,16 +1,72 @@
-# React + Vite
+# 🌦️ Forecastly App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple and interactive weather application built using **React.js** that allows users to search weather details by **city name**, fetches data from the **OpenWeatherMap API**, and displays detailed weather information.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## React Compiler
+✅ **Search Weather by City Name**  
+Users can type any city name to get real-time weather data.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+✅ **Weather Details Display**
+- City Name  
+- Temperature (°C)  
+- Weather Condition (Clear, Cloudy, Rainy, etc.)  
+- Weather Icon or background based on the condition  
+- Humidity
+- “Feels Like” Temperature  
 
-## Expanding the ESLint configuration
+✅ **Dynamic Background**
+- Background color changes automatically based on current weather condition (e.g., sunny, cloudy, rainy, etc.)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+✅ **Save Last Searched City**
+- The last searched city is saved in `localStorage` so that it persists even after reloading the page.
+
+✅ **Default Weather by Location**
+- On first load, the app automatically detects your **current location** using the **Geolocation API** and shows the weather for your city.
+
+---
+
+## 🧰 Tech Stack
+
+- **Frontend:** React.js, CSS / Tailwind CSS  
+- **API:** [OpenWeatherMap API](https://openweathermap.org/api)  
+- **Browser APIs:** Geolocation API, LocalStorage  
+
+---
+
+## ⚙️ Setup Instructions
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/yourusername/weather-app.git
+   cd weather-app
+   ```
+   
+2. Install Dependencies
+   ```bash
+   npm install
+   ```
+  
+3. Get Your API Key
+   - Go to OpenWeatherMap
+   - Create a free account
+   - Generate your API key
+     
+4. Add Environment Variable
+   Create a .env file in the root directory and add your API key:
+   ```bash
+   REACT_APP_WEATHER_API_KEY=your_api_key_here
+   ```
+   
+6. Start the Development Server
+   ```bash
+   npm run dev
+   ```
+
+7. Open in Browser
+   Visit 👉 http://localhost:5173
+
+## 🧑‍💻 Author
+Yashi Sharma
