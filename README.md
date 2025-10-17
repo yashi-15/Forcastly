@@ -68,5 +68,11 @@ Users can type any city name to get real-time weather data.
 7. Open in Browser
    Visit 👉 http://localhost:5173
 
+## Screenshots
+<img width="1920" height="1080" alt="Screenshot (866)" src="https://github.com/user-attachments/assets/4b0e9969-689c-4dee-82de-0bd816ce25f4" />
+
+<img width="1920" height="1080" alt="Screenshot (867)" src="https://github.com/user-attachments/assets/b3da54be-ef1d-4252-880c-f78fe81782cc" />
+
+
 ## 🧑‍💻 Author
 Yashi Sharma
