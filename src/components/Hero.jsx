@@ -1,35 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { WiHumidity } from "react-icons/wi";
-import { FiSunset, FiSunrise } from "react-icons/fi";
-
 import axios from "axios";
 
 const Hero = () => {
     const [location, setLocation] = useState({ lat: null, lon: null });
     const [cityName, setCityName] = useState("");
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState({ val: false, msg: "" });
     const [data, setData] = useState({});
 
     const apiKey = "7cd1dc8955b805a6aa401d56338eb53c";
 
     const searchWeather = () => {
+        let url = "";
+        if (cityName) {
+            url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(cityName)}&appid=${apiKey}&units=metric`;
+        } else {
+            url = `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&appid=${apiKey}&units=metric`;
+        }
+        setLoading(true);
         axios
-            .get(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(cityName)}&appid=${apiKey}&units=metric`)
+            .get(url)
             .then(function (response) {
-                console.log(response);
                 setData(response.data);
             })
-            .catch(function (error) {
-                console.log(error);
+            .catch(function (response) {
+                console.log(response);
+
+                setError({ val: true, msg: response.response.data.message });
             })
-            .finally(function () {
-                // always executed
-            });
+            .finally(() => setLoading(false));
     };
 
     useEffect(() => {
         if (!navigator.geolocation) {
-            alert("not supported");
+            setError({ val: true, msg: "GeoLocation not enabled by your browser" });
         }
         navigator.geolocation.getCurrentPosition((position) =>
             setLocation({
@@ -41,15 +47,7 @@ const Hero = () => {
 
     useEffect(() => {
         if (location.lat !== null || location.lon !== null) {
-            axios
-                .get(`https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&appid=${apiKey}&units=metric`)
-                .then(function (response) {
-                    console.log(response);
-                    setData(response.data);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+            searchWeather();
         }
     }, [location]);
 
@@ -75,12 +73,19 @@ const Hero = () => {
     const bgColor = weatherColors[weatherMain] || "#ffffff";
 
     return (
-        <div className="h-screen" style={{ backgroundColor: bgColor }}>
-            <div className="text-blue-500 font-bold text-3xl p-3 fixed top-0">Forecastly</div>
+        <div className="h-screen transition duration-400 ease-in-out" style={{ backgroundColor: bgColor }}>
+            <div className="text-black font-bold text-3xl p-3 fixed top-0">Forecastly</div>
             <div className="flex flex-col gap-4 justify-center items-center h-full">
                 <h1 className="font-bold text-white text-5xl text-shadow-lg">Today's Weather</h1>
-                {data && data.main ? (
-                    <div>
+                <div className="min-h-36 min-w-54">
+                {loading === true ? (
+                    <p className="text-blue-500 font-semibold">Loading weather data...</p>
+                ) : error.val ? (
+                    <div className="px-3 py-1 bg-red-500 rounded-full">
+                        <p className="text-red-100">Error: {error.msg}</p>
+                    </div>
+                ) : (
+                    <div className="shadow-md p-2">
                         <div className="flex gap-1 justify-center items-center">
                             <FaLocationDot />
                             <h2>{data.name}</h2>
@@ -96,25 +101,13 @@ const Hero = () => {
                             <WiHumidity size={24} />
                             <h3>{data.main.humidity}%</h3>
                         </div>
-                        {/* <div className="flex">
-                            <FiSunrise size={24} />
-                            <h3>{new Date(data.sys.sunrise).toLocaleTimeString()} {}</h3>
-                        </div>
-                        <div className="flex">
-                            <FiSunset size={24} />
-                            <h3>{new Date(data.sys.sunset).toLocaleTimeString()}</h3>
-                        </div> */}
-
-                        {/* <div>Latitude: {location.lat}</div>
-                    <div>Longitude: {location.lon}</div> */}
                     </div>
-                ) : (
-                    <p>Loading weather data</p>
                 )}
+                </div>
 
                 <div className="flex gap-6">
                     <input type="text" placeholder="Search city..." value={cityName} onChange={(e) => setCityName(e.target.value)} className="border border-gray-400 p-2 rounded-lg focus:outline-none" />
-                    <button onClick={searchWeather} className="px-4 py-2 font-semibold bg-blue-500 text-white rounded-lg">
+                    <button onClick={searchWeather} className="px-4 py-2 font-semibold bg-black text-white rounded-lg">
                         Search
                     </button>
                 </div>
